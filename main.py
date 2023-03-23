@@ -87,18 +87,14 @@ while True:
                 window["results"].update(value=lines)
             try:
                 preamble_length = int(preamble_length_text)
+                # First remove the break lines.
+                lines = [line.strip("\n") for line in lines]
+
+                lines = functions.convert_preamble(lines,
+                                                   preamble_length,
+                                                   elements["preamble"])
             except ValueError:
                 window["results"].update(value="Preamble length must a number.")
-
-            # First remove the break lines.
-            lines = [line.strip("\n") for line in lines]
-
-            # Add boldface to title.
-            lines[0] = functions.convert_title(lines[0])
-            print(lines)
-
-            # Add italics to spell type and level (2nd line)
-            lines[1] = functions.italicize_line(lines[1])
 
         case sg.WIN_CLOSED:
             break
