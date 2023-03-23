@@ -74,3 +74,10 @@ window = sg.Window("Table Converter",
 while True:
     event, values = window.read()
     print(event, values)
+    match event:
+        case sg.WIN_CLOSED:
+            break
+        case "quit":
+            break
+
+window.close()
