@@ -82,6 +82,7 @@ while True:
             preamble_length_text = values["preamble_length"]
             extra_elements = values["extra_elements"]
             lines = functions.load_file(filepath)
+            elements = functions.load_elements()
             if not isinstance(lines, list):
                 window["results"].update(value=lines)
             try:
@@ -95,6 +96,9 @@ while True:
             # Add boldface to title.
             lines[0] = functions.convert_title(lines[0])
             print(lines)
+
+            # Add italics to spell type and level (2nd line)
+            lines[1] = functions.italicize_line(lines[1])
 
         case sg.WIN_CLOSED:
             break

@@ -1,0 +1,12 @@
+{
+  "preamble": [
+    "Classes", "Casting Time", "Range", "Area", "Components",
+    "Duration", "Saving Throw"
+  ],
+  "extras": [
+    "Rare", "Area Suppression", "Cast At Higher Levels", "Amphibian",
+    "Altered State", "Red in Tooth and Claw", "Greater Natural Weapons",
+    "Mask of the Grave", "Wings", "Creatures and Objects", "Dispel Magic",
+    "Magic Items", "Magical Travel", "Spells", "Antipathy", "Sympathy"
+  ]
+}
