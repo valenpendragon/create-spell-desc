@@ -19,6 +19,16 @@ def load_file(filepath):
             return f"{extension} is an invalid format for this program."
 
 
+def convert_title(title: str) -> str:
+    """
+    This function adds boldface notation to title of the spell.
+    :param title: str
+    :return: str
+    """
+    return f"__{title}__"
+
+
 if __name__ == "__main__":
     print(load_file("originals/Alarm.txt"))
     print(load_file("originals/test.csv"))
+    print(convert_title("title"))

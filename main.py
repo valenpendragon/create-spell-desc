@@ -89,6 +89,13 @@ while True:
             except ValueError:
                 window["results"].update(value="Preamble length must a number.")
 
+            # First remove the break lines.
+            lines = [line.strip("\n") for line in lines]
+
+            # Add boldface to title.
+            lines[0] = functions.convert_title(lines[0])
+            print(lines)
+
         case sg.WIN_CLOSED:
             break
         case "quit":
