@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import functions
 
 sg.theme("Black")
 
@@ -75,6 +76,19 @@ while True:
     event, values = window.read()
     print(event, values)
     match event:
+        case "Convert File":
+            filepath = values["filepath"]
+            dest_folder = values["dest_folder"]
+            preamble_length_text = values["preamble_length"]
+            extra_elements = values["extra_elements"]
+            lines = functions.load_file(filepath)
+            if not isinstance(lines, list):
+                window["results"].update(value=lines)
+            try:
+                preamble_length = int(preamble_length_text)
+            except ValueError:
+                window["results"].update(value="Preamble length must a number.")
+
         case sg.WIN_CLOSED:
             break
         case "quit":
