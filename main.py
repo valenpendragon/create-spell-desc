@@ -3,6 +3,7 @@ import functions
 
 sg.theme("Black")
 
+# This section is for the main application window.
 file_choice_label = sg.Text("Select the text file containing the spell description:")
 file_choice_input = sg.Input(key="file_choice",
                              enable_events=True,
@@ -27,6 +28,8 @@ preamble_help_text = """
 The preamble includes all lines before
 the spell descriptive text begins. This
 includes Name, Level, Classes, etc.
+Include broken lines as well, since these
+change the preamble length.
 """
 preamble_help_label = sg.Text(preamble_help_text)
 
@@ -67,13 +70,16 @@ col2 = sg.Column(layout=layout_col2)
 col3 = sg.Column(layout=layout_col3)
 col4 = sg.Column(layout=layout_col4)
 
-window = sg.Window("Table Converter",
-                   layout=[[col1, col2],
-                           [col3, col4],
-                           [convert_button, quit_button, result_label]])
+main_window = sg.Window("Table Converter",
+                        layout=[[col1, col2],
+                                [col3, col4],
+                                [convert_button, quit_button, result_label]])
+
+# This section is for the presentation window that allows the user to see the
+# changes made to the final version before writing the output to disk.
 
 while True:
-    event, values = window.read()
+    event, values = main_window.read()
     print(event, values)
     match event:
         case "Convert File":
@@ -84,7 +90,7 @@ while True:
             lines = functions.load_file(filepath)
             elements = functions.load_elements()
             if not isinstance(lines, list):
-                window["results"].update(value=lines)
+                main_window["results"].update(value=lines)
             try:
                 preamble_length = int(preamble_length_text)
                 # First remove the break lines.
@@ -97,14 +103,16 @@ while True:
                                                        elements["extras"],
                                                        extra_elements)
                 finished_lines.extend(paragraphs)
-
+                functions.write_new_file(finished_lines, filepath, dest_folder)
+                main_window["results"].update(
+                    value="Conversion complete.")
 
             except ValueError:
-                window["results"].update(value="Preamble length must a number.")
+                main_window["results"].update(value="Preamble length must a number.")
 
         case sg.WIN_CLOSED:
             break
         case "quit":
             break
 
-window.close()
+main_window.close()

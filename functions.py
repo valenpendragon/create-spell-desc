@@ -64,23 +64,52 @@ def convert_preamble(lines: list,
     :return: list of str
     """
     converted_lines = []
-    for idx, line in enumerate(lines):
+    checked_lines = []
+    # First, we need to check for prematurely terminated preamble lines.
+    i = 0
+    while i < preamble_length:
+        if check_line_end(lines[i]):
+            new_line = f"{lines[i]} {lines[i+1]}"
+            checked_lines.append(new_line)
+            i += 2
+        else:
+            checked_lines.append(lines[i])
+            i += 1
+
+    for idx, line in enumerate(checked_lines):
         if idx == 0:
             # Add boldface to title.
-            converted_lines.append(convert_title(lines[0]))
+            converted_lines.append(convert_title(checked_lines[0]))
         elif idx == 1:
-            # Add italics to spell type and level (2nd line)
-            converted_lines.append(italicize_line(lines[1]))
+            # Add italics to spell type and level (2nd line).
+            converted_lines.append(italicize_line(checked_lines[1]))
         elif 1 < idx < preamble_length:
             element_found = False
             for item in preamble_elements:
-                if lines[idx].startswith(item):
+                if checked_lines[idx].startswith(item):
                     element_found = True
                     new_item = f"__{item}__"
-                    converted_lines.append(lines[idx].replace(item, new_item))
+                    converted_lines.append(
+                        checked_lines[idx].replace(item, new_item))
             if not element_found:
-                converted_lines.append(lines[idx])
+                converted_lines.append(checked_lines[idx])
     return converted_lines
+
+
+def check_line_end(line: str) -> bool:
+    """
+    This function is used to check the end of a line in the preamble to see if is
+    prematurely terminated by a list of items split with a comma, colon, or
+    semi-colon. Such lines need to be merged. The list of classes and the level
+    list can be prematurely terminated.
+    :param line: str
+    :return: bool
+    """
+    punctuation = [",", ":", ";"]
+    for item in punctuation:
+        if line.endswith(item):
+            return True
+    return False
 
 
 def find_paragraphs(remaining_txt: list,
@@ -104,16 +133,12 @@ def find_paragraphs(remaining_txt: list,
 
         # If a line starts with an extra, the paragraph starts.
         # We also have to add strong emphasis to the extra part.
-        if has_extras and identify_extras(line,extras):
+        extra = identify_extras(line, extras)
+        if has_extras and extra is not None:
             if current_paragraph != "":
                 paragraphs.append(current_paragraph)
                 current_paragraph = ""
-            line_pieces = line.split(".")
-            current_paragraph = f"__{line_pieces[0]}__. {line_pieces[1]}"
-            # Accounting for more than one period in the line.
-            if len(line_pieces) > 2:
-                for piece in line_pieces[2:]:
-                    current_paragraph = f"{current_paragraph}. {piece}"
+            current_paragraph = line.replace(extra, f"__{extra}__")
         else:
             current_paragraph = current_paragraph + " " + line
             # Paragraphs typically end with the end of a sentence.
@@ -124,19 +149,38 @@ def find_paragraphs(remaining_txt: list,
 
 
 def identify_extras(line: str,
-                    extras: list) -> bool:
+                    extras: list):
     """
     This function checks to see if a line begins with a string in extras. The
     extras are items that start emphasized paragraphs or bullet items in the
     spell description.
     :param line: str
     :param extras: list of str
-    :return: bool
+    :return: str or None
     """
     for extra in extras:
         if line.startswith(extra):
-            return True
-    return False
+            return extra
+    return None
+
+
+def write_new_file(lines: list,
+                   filepath,
+                   dest_folder) -> None:
+    """
+    This function writes a list of strings to disk, adding break lines for each
+    string.
+    :param lines: list of str
+    :param filepath: str, filepath to original file
+    :param dest_folder: str
+    :return:
+    """
+    original_filename = Path(filepath).stem
+    new_filename = f"__{original_filename}__.txt"
+    new_filepath = f"{dest_folder}/{new_filename}"
+    output = [line + "\n" for line in lines]
+    with open(new_filepath, 'w') as file:
+        file.writelines(output)
 
 
 if __name__ == "__main__":
@@ -147,8 +191,13 @@ if __name__ == "__main__":
     preamble = elements["preamble"]
     extras = elements["extras"]
     print(elements)
-    lines = load_file("originals/Alarm.txt")
+    lines = load_file("originals/Alter Self.txt")
     lines = [line.strip("\n") for line in lines]
     print(lines)
-    print(convert_preamble(lines, 8, elements["preamble"]))
-    print(find_paragraphs(lines[8:], extras, True))
+    preamble = convert_preamble(lines, 8, elements["preamble"])
+    print(preamble)
+    paragraphs = find_paragraphs(lines[8:], extras, True)
+    print(paragraphs)
+    test_convert = preamble
+    test_convert.extend(paragraphs)
+    write_new_file(test_convert, "originals/Alter Self.txt", "output")
