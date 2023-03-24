@@ -70,7 +70,7 @@ col2 = sg.Column(layout=layout_col2)
 col3 = sg.Column(layout=layout_col3)
 col4 = sg.Column(layout=layout_col4)
 
-main_window = sg.Window("Table Converter",
+main_window = sg.Window("Spell Converter",
                         layout=[[col1, col2],
                                 [col3, col4],
                                 [convert_button, quit_button, result_label]])

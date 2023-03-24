@@ -1,7 +1,7 @@
 {
   "preamble": [
     "Classes", "Casting Time", "Range", "Area", "Components",
-    "Duration", "Saving Throw"
+    "Duration", "Saving Throw", "Target"
   ],
   "extras": [
     "Rare", "Area Suppression", "Cast at Higher Levels", "Amphibian",

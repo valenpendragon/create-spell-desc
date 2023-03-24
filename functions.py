@@ -105,7 +105,7 @@ def check_line_end(line: str) -> bool:
     :param line: str
     :return: bool
     """
-    punctuation = [",", ":", ";"]
+    punctuation = [",", ":", ";", "or"]
     for item in punctuation:
         if line.endswith(item):
             return True
