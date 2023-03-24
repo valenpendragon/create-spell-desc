@@ -89,10 +89,12 @@ while True:
                 preamble_length = int(preamble_length_text)
                 # First remove the break lines.
                 lines = [line.strip("\n") for line in lines]
+                finished_lines = functions.convert_preamble(
+                    lines, preamble_length, elements["preamble"])
 
-                lines = functions.convert_preamble(lines,
-                                                   preamble_length,
-                                                   elements["preamble"])
+                # The next step is to convert the remaining text into paragraphs.
+                # paragraphs = functions(lines[preamble_length:],
+                # elements["extras"], extra_elements)
             except ValueError:
                 window["results"].update(value="Preamble length must a number.")
 

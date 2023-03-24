@@ -86,12 +86,69 @@ def convert_preamble(lines: list,
     return converted_lines
 
 
+def find_paragraphs(remaining_txt: list, extras: list, has_extras: bool) -> list:
+    """
+    This functions receives the remaining text, which will be in the form of
+    a list of lines. This text will be returned as assembled paragraphs.
+    :param remaining_txt: list of str
+    :param extras: list of str
+    :param has_extras: bool
+    :return: list
+    """
+    ending_punctuation = [".", "!", "?"]
+    current_paragraph = ""
+    paragraphs = []
+    for line in remaining_txt:
+        # The copying process can leave spaces at the start of a paragraph.
+        while line[0] == " ":
+            line = line[1:]
+
+        # If a line starts with an extra, the paragraph starts.
+        # We also have to add strong emphasis to the extra part.
+        if has_extras and identify_extras(line,extras):
+            if current_paragraph != "":
+                paragraphs.append(current_paragraph)
+                current_paragraph = ""
+            line_pieces = line.split(".")
+            current_paragraph = f"__{line_pieces[0]}__. {line_pieces[1]}"
+            # Accounting for more than one period in the line.
+            if len(line_pieces) > 2:
+                for piece in line_pieces[2:]:
+                    current_paragraph = f"{current_paragraph}. {piece}"
+        else:
+            current_paragraph = current_paragraph + " " + line
+            # Paragraphs typically end with the end of a sentence.
+            if line[-1] in ending_punctuation:
+                paragraphs.append(current_paragraph)
+                current_paragraph = ""
+    return paragraphs
+
+
+def identify_extras(line: str, extras: list) -> bool:
+    """
+    This function checks to see if a line begins with a string in extras. The
+    extras are items that start emphasized paragraphs or bullet items in the
+    spell description.
+    :param line: str
+    :param extras: list of str
+    :return: bool
+    """
+    for extra in extras:
+        if line.startswith(extra):
+            return True
+    return False
+
+
 if __name__ == "__main__":
     print(load_file("originals/Alarm.txt"))
     print(load_file("originals/test.csv"))
     print(convert_title("title"))
     elements = load_elements()
+    preamble = elements["preamble"]
+    extras = elements["extras"]
     print(elements)
     lines = load_file("originals/Alarm.txt")
     lines = [line.strip("\n") for line in lines]
+    print(lines)
     print(convert_preamble(lines, 8, elements["preamble"]))
+    print(find_paragraphs(lines[8:], extras, True))

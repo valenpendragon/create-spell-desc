@@ -4,9 +4,10 @@
     "Duration", "Saving Throw"
   ],
   "extras": [
-    "Rare", "Area Suppression", "Cast At Higher Levels", "Amphibian",
+    "Rare", "Area Suppression", "Cast at Higher Levels", "Amphibian",
     "Altered State", "Red in Tooth and Claw", "Greater Natural Weapons",
     "Mask of the Grave", "Wings", "Creatures and Objects", "Dispel Magic",
-    "Magic Items", "Magical Travel", "Spells", "Antipathy", "Sympathy"
+    "Magic Items", "Magical Travel", "Spells", "Antipathy", "Sympathy",
+    "Increased Duration", "Improved Audible Alarm", "Improved Mental Alarm"
   ]
 }
