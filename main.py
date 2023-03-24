@@ -91,10 +91,16 @@ while True:
                 lines = [line.strip("\n") for line in lines]
                 finished_lines = functions.convert_preamble(
                     lines, preamble_length, elements["preamble"])
+                print(f"finished_lines: {finished_lines}")
 
                 # The next step is to convert the remaining text into paragraphs.
-                # paragraphs = functions(lines[preamble_length:],
-                # elements["extras"], extra_elements)
+                paragraphs = functions.find_paragraphs(lines[preamble_length:],
+                                                       elements["extras"],
+                                                       extra_elements)
+                print(f"Paragraphs: {paragraphs}")
+                finished_lines.extend(paragraphs)
+                print(f"finished_lines: {finished_lines}")
+
             except ValueError:
                 window["results"].update(value="Preamble length must a number.")
 

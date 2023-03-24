@@ -57,7 +57,7 @@ def convert_preamble(lines: list,
                      preamble_elements: list) -> list:
     """
     This function converts the entire preamble of the lines and return lines with
-    the changes.
+    the changes and returns only the preamble.
     :param lines: list of str
     :param preamble_elements: list
     :param preamble_length: int
@@ -80,13 +80,12 @@ def convert_preamble(lines: list,
                     converted_lines.append(lines[idx].replace(item, new_item))
             if not element_found:
                 converted_lines.append(lines[idx])
-        else:
-            converted_lines.append(lines[idx])
-    print(converted_lines)
     return converted_lines
 
 
-def find_paragraphs(remaining_txt: list, extras: list, has_extras: bool) -> list:
+def find_paragraphs(remaining_txt: list,
+                    extras: list,
+                    has_extras: bool) -> list:
     """
     This functions receives the remaining text, which will be in the form of
     a list of lines. This text will be returned as assembled paragraphs.
@@ -124,7 +123,8 @@ def find_paragraphs(remaining_txt: list, extras: list, has_extras: bool) -> list
     return paragraphs
 
 
-def identify_extras(line: str, extras: list) -> bool:
+def identify_extras(line: str,
+                    extras: list) -> bool:
     """
     This function checks to see if a line begins with a string in extras. The
     extras are items that start emphasized paragraphs or bullet items in the
