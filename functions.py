@@ -86,13 +86,19 @@ def convert_preamble(lines: list,
         elif 1 < idx < preamble_length:
             element_found = False
             for item in preamble_elements:
-                if checked_lines[idx].startswith(item):
-                    element_found = True
-                    new_item = f"__{item}__"
-                    converted_lines.append(
-                        checked_lines[idx].replace(item, new_item))
+                # The following fixes a bug in which one preamble item of
+                # length X matches the first X characters of another preamble
+                # item.
+                if len(checked_lines) > len(converted_lines):
+                    if checked_lines[idx].startswith(item):
+                        element_found = True
+                        new_item = f"__{item}__"
+                        converted_lines.append(
+                            checked_lines[idx].replace(item, new_item))
             if not element_found:
                 converted_lines.append(checked_lines[idx])
+        print(f"checked_lines: {checked_lines}")
+        print(f"converted_lines: {converted_lines}")
     return converted_lines
 
 
@@ -127,6 +133,7 @@ def find_paragraphs(remaining_txt: list,
     current_paragraph = ""
     paragraphs = []
     for line in remaining_txt:
+        print(f"current_paragraph: {current_paragraph}")
         # The copying process can leave spaces at the start of a paragraph.
         while line[0] == " ":
             line = line[1:]
@@ -134,17 +141,23 @@ def find_paragraphs(remaining_txt: list,
         # If a line starts with an extra, the paragraph starts.
         # We also have to add strong emphasis to the extra part.
         extra = identify_extras(line, extras)
+        print(f"extra: {extra}")
         if has_extras and extra is not None:
             if current_paragraph != "":
                 paragraphs.append(current_paragraph)
                 current_paragraph = ""
             current_paragraph = line.replace(extra, f"__{extra}__")
+            if current_paragraph[-1] in ending_punctuation:
+                paragraphs.append(current_paragraph)
         else:
             current_paragraph = current_paragraph + " " + line
             # Paragraphs typically end with the end of a sentence.
             if line[-1] in ending_punctuation:
                 paragraphs.append(current_paragraph)
                 current_paragraph = ""
+        # print(f"current_paragraph: {current_paragraph}")
+        # print(f"extra: {extra}")
+        print(f"paragraphs: {paragraphs}")
     return paragraphs
 
 

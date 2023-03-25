@@ -1,16 +1,17 @@
 {
   "preamble": [
     "Classes", "Casting Time", "Range", "Area", "Components",
-    "Duration", "Saving Throw", "Target", "Crafting Components"
+    "Duration", "Saving Throw", "Target", "Crafting Components",
+    "Crafting Component"
   ],
   "extras": [
-    "Rare", "Area Suppression", "Cast at Higher Levels", "Amphibian",
+    "Rare Variant", "Area Suppression", "Cast at Higher Levels", "Amphibian",
     "Altered State", "Red in Tooth and Claw", "Greater Natural Weapons",
     "Mask of the Grave", "Wings", "Creatures and Objects", "Dispel Magic",
     "Magic Items", "Magical Travel", "Spells", "Antipathy", "Sympathy",
     "Increased Duration", "Improved Audible Alarm", "Improved Mental Alarm",
     "Shove", "Smash", "Snatch", "Stop", "Area Suppression",
     "Creatures and Objects", "Dispel Magic", "Magic Items", "Magical Travel",
-    "Spells", "Note"
+    "Spells", "Note", "Rare"
   ]
 }
