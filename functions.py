@@ -15,7 +15,7 @@ def load_file(filepath):
     extension = Path(filepath).suffix
     match extension:
         case ".txt":
-            with open(filepath, 'r') as file:
+            with open(filepath, 'r', encoding="utf-8") as file:
                 content = file.readlines()
             return content
         case _:

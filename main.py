@@ -100,7 +100,7 @@ while True:
 
                 # The next step is to convert the remaining text into paragraphs.
                 paragraphs = functions.find_paragraphs(lines[preamble_length:],
-                                                       elements["extras"],
+                                                      elements["extras"],
                                                        extra_elements)
                 finished_lines.extend(paragraphs)
                 functions.write_new_file(finished_lines, filepath, dest_folder)

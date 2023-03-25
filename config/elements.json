@@ -1,7 +1,7 @@
 {
   "preamble": [
     "Classes", "Casting Time", "Range", "Area", "Components",
-    "Duration", "Saving Throw", "Target"
+    "Duration", "Saving Throw", "Target", "Crafting Components"
   ],
   "extras": [
     "Rare", "Area Suppression", "Cast at Higher Levels", "Amphibian",
@@ -11,6 +11,6 @@
     "Increased Duration", "Improved Audible Alarm", "Improved Mental Alarm",
     "Shove", "Smash", "Snatch", "Stop", "Area Suppression",
     "Creatures and Objects", "Dispel Magic", "Magic Items", "Magical Travel",
-    "Spells"
+    "Spells", "Note"
   ]
 }
