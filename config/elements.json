@@ -1,8 +1,8 @@
 {
   "preamble": [
     "Classes", "Casting Time", "Range", "Area", "Components",
-    "Duration", "Saving Throw", "Target", "Crafting Components",
-    "Crafting Component"
+    "Duration", "Saving Throws", "Target", "Crafting Components",
+    "Crafting Component", "Saving Throw"
   ],
   "extras": [
     "Rare Variant", "Area Suppression", "Cast at Higher Levels", "Amphibian",

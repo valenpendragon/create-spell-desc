@@ -67,6 +67,7 @@ def convert_preamble(lines: list,
     checked_lines = []
     # First, we need to check for prematurely terminated preamble lines.
     i = 0
+    # print(f"lines: {lines}")
     while i < preamble_length:
         if check_line_end(lines[i]):
             new_line = f"{lines[i]} {lines[i+1]}"
@@ -75,6 +76,7 @@ def convert_preamble(lines: list,
         else:
             checked_lines.append(lines[i])
             i += 1
+        print(f"checked_lines: {checked_lines}")
 
     for idx, line in enumerate(checked_lines):
         if idx == 0:
@@ -85,16 +87,23 @@ def convert_preamble(lines: list,
             converted_lines.append(italicize_line(checked_lines[1]))
         elif 1 < idx < preamble_length:
             element_found = False
+            # print(f"idx: {idx}, preamble_length: {preamble_length}")
+            # print(f"element_found: {element_found}")
             for item in preamble_elements:
                 # The following fixes a bug in which one preamble item of
                 # length X matches the first X characters of another preamble
                 # item.
+                # print(f"item: {item}")
+                # print(f"len(checked_lines): {len(checked_lines)}")
+                # print(f"len(converted_lines): {len(converted_lines)}")
                 if len(checked_lines) > len(converted_lines):
                     if checked_lines[idx].startswith(item):
                         element_found = True
                         new_item = f"__{item}__"
                         converted_lines.append(
                             checked_lines[idx].replace(item, new_item))
+                        print(f"element_found: {element_found}")
+                        print(f"new_item: {new_item}")
             if not element_found:
                 converted_lines.append(checked_lines[idx])
         print(f"checked_lines: {checked_lines}")
