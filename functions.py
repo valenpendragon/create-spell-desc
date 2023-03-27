@@ -158,7 +158,37 @@ def find_paragraphs(remaining_txt: list,
         # print(f"current_paragraph: {current_paragraph}")
         # print(f"extra: {extra}")
         print(f"paragraphs: {paragraphs}")
+
+    # Once the initial pass of paragraph generation is done, we need to remove
+    # any duplicate first lines. This will correct a bug in which the first line
+    # ends with a period or other indicator of the potential end of a paragraph.
+    # We can remove these duplicates quite easily.
+    paragraphs = check_for_duplication(paragraphs)
     return paragraphs
+
+
+def check_for_duplication(paragraphs: list) -> list:
+    """
+    This functions takes a list of text paragraphs and removes duplication of
+    all or portions of a paragraph at the beginning of the next paragraph.
+    :param paragraphs: list of str
+    :return: list of str
+    """
+    # Duplication produced by the first line ending with a potential paragraph end
+    # can be easily fixed by checking lines against the next line.
+    no_paragraphs = len(paragraphs)
+    checked_paragraphs = []
+    index = 0
+    while index < no_paragraphs - 1:
+        current_paragraph = paragraphs[index]
+        next_paragraph = paragraphs[index + 1]
+        if current_paragraph not in next_paragraph:
+            checked_paragraphs.append(current_paragraph)
+        index += 1
+        print(f"checked_paragraphs: {checked_paragraphs}")
+    checked_paragraphs.append(paragraphs[-1])
+    print(f"checked_paragraphs: {checked_paragraphs}")
+    return checked_paragraphs
 
 
 def identify_extras(line: str,
