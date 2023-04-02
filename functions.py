@@ -138,7 +138,7 @@ def find_paragraphs(remaining_txt: list,
     :param has_extras: bool
     :return: list
     """
-    ending_punctuation = [".", "!", "?"]
+    ending_punctuation = [".", "!", "?", ":"]
     current_paragraph = ""
     paragraphs = []
     for line in remaining_txt:
@@ -159,6 +159,9 @@ def find_paragraphs(remaining_txt: list,
             if current_paragraph[-1] in ending_punctuation:
                 paragraphs.append(current_paragraph)
         else:
+            if current_paragraph != "" and current_paragraph[-1] in ending_punctuation:
+                paragraphs.append(current_paragraph)
+                current_paragraph = ""
             current_paragraph = current_paragraph + " " + line
             # Paragraphs typically end with the end of a sentence.
             if line[-1] in ending_punctuation:

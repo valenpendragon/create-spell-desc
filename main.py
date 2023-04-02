@@ -96,7 +96,7 @@ while True:
                 # First remove the break lines.
                 lines = [line.strip("\n") for line in lines]
                 finished_lines = functions.convert_preamble(
-                    lines, preamble_length, elements["preamble"])
+                    lines[0:preamble_length], preamble_length, elements["preamble"])
 
                 # The next step is to convert the remaining text into paragraphs.
                 paragraphs = functions.find_paragraphs(lines[preamble_length:],
