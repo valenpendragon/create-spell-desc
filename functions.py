@@ -150,7 +150,9 @@ def find_paragraphs(remaining_txt: list,
         # If a line starts with an extra, the paragraph starts.
         # We also have to add strong emphasis to the extra part.
         extra = identify_extras(line, extras)
+        bullet = check_for_bullet(line)
         print(f"extra: {extra}")
+        print(f"bullet: {bullet}")
         if has_extras and extra is not None:
             if current_paragraph != "":
                 paragraphs.append(current_paragraph)
@@ -158,6 +160,14 @@ def find_paragraphs(remaining_txt: list,
             current_paragraph = line.replace(extra, f"__{extra}__")
             if current_paragraph[-1] in ending_punctuation:
                 paragraphs.append(current_paragraph)
+        elif bullet:
+            if current_paragraph != "":
+                paragraphs.append(current_paragraph)
+                current_paragraph = ""
+            current_paragraph = line.replace("•", "*")
+            if current_paragraph[-1] in ending_punctuation:
+                paragraphs.append(current_paragraph)
+                current_paragraph = ""
         else:
             if current_paragraph != "" and current_paragraph[-1] in ending_punctuation:
                 paragraphs.append(current_paragraph)
@@ -238,6 +248,16 @@ def write_new_file(lines: list,
         file.writelines(output)
 
 
+def check_for_bullet(s: str) -> bool:
+    """
+    This function checks for a bullet character at the beginning of a string and returns
+    True or False depending on the starting character.
+    :param s: str
+    :return: bool
+    """
+    return s[0] == "•"
+
+
 if __name__ == "__main__":
     print(load_file("originals/Alarm.txt"))
     print(load_file("originals/test.csv"))
@@ -256,3 +276,5 @@ if __name__ == "__main__":
     test_convert = preamble
     test_convert.extend(paragraphs)
     write_new_file(test_convert, "originals/Alter Self.txt", "output")
+    print(f"Bullet test (shoudl be False: {check_for_bullet('No bullet here.')}")
+    print(f"Bullet test (should be true): {check_for_bullet('• a level of fatigue.')}")
