@@ -61,6 +61,10 @@ def convert_preamble(lines: list,
     """
     This function converts the entire preamble of the lines and return lines with
     the changes and returns only the preamble.
+    This is a new version for branch preamble-paragraphs to fix a long running major
+    bug in which paragraphs in the preamble are not parsed into paragraphs. A branch
+    was needed because this change could overhaul the naive algorithms used in this
+    function.
     :param lines: list of str
     :param preamble_elements: list
     :param preamble_length: int
