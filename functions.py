@@ -15,11 +15,14 @@ def load_file(filepath):
     extension = Path(filepath).suffix
     match extension:
         case ".txt":
-            with open(filepath, 'r', encoding="utf-8") as file:
-                content = file.readlines()
-            return content
+            try:
+                with open(filepath, 'r', encoding="utf-8") as file:
+                    content = file.readlines()
+                return content
+            except FileNotFoundError:
+                return f"Error: {filepath} was not found."
         case _:
-            return f"{extension} is an invalid format for this program."
+            return f"Error: {extension} is an invalid format for this program."
 
 
 def convert_title(title: str) -> str:
@@ -70,9 +73,14 @@ def convert_preamble(lines: list,
     # print(f"lines: {lines}")
     while i < preamble_length:
         if check_line_end(lines[i]):
-            new_line = f"{lines[i]} {lines[i+1]}"
-            checked_lines.append(new_line)
-            i += 2
+            try:
+                new_line = f"{lines[i]} {lines[i+1]}"
+                checked_lines.append(new_line)
+                i += 2
+            except IndexError:
+                new_line = f"{lines[i]}"
+                checked_lines.append(new_line)
+                break
         else:
             checked_lines.append(lines[i])
             i += 1
@@ -244,8 +252,12 @@ def write_new_file(lines: list,
     new_filename = f"__{original_filename}__.txt"
     new_filepath = f"{dest_folder}/{new_filename}"
     output = [line + "\n" for line in lines]
-    with open(new_filepath, 'w') as file:
-        file.writelines(output)
+    try:
+        with open(new_filepath, 'w') as file:
+            file.writelines(output)
+        return None
+    except FileNotFoundError:
+        return f"Error: {dest_folder} was not found."
 
 
 def check_for_bullet(s: str) -> bool:
@@ -276,5 +288,5 @@ if __name__ == "__main__":
     test_convert = preamble
     test_convert.extend(paragraphs)
     write_new_file(test_convert, "originals/Alter Self.txt", "output")
-    print(f"Bullet test (shoudl be False: {check_for_bullet('No bullet here.')}")
+    print(f"Bullet test (should be False: {check_for_bullet('No bullet here.')}")
     print(f"Bullet test (should be true): {check_for_bullet('• a level of fatigue.')}")

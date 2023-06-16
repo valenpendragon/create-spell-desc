@@ -88,27 +88,33 @@ while True:
             preamble_length_text = values["preamble_length"]
             extra_elements = values["extra_elements"]
             lines = functions.load_file(filepath)
+            print(f"lines type: {type(lines)}")
             elements = functions.load_elements()
             if not isinstance(lines, list):
+                # An error occurred trying to load the file.
                 main_window["results"].update(value=lines)
-            try:
-                preamble_length = int(preamble_length_text)
-                # First remove the break lines.
-                lines = [line.strip("\n") for line in lines]
-                finished_lines = functions.convert_preamble(
-                    lines[0:preamble_length], preamble_length, elements["preamble"])
+            else:
+                try:
+                    preamble_length = int(preamble_length_text)
+                    # First remove the break lines.
+                    lines = [line.strip("\n") for line in lines]
+                    finished_lines = functions.convert_preamble(
+                        lines[0:preamble_length], preamble_length, elements["preamble"])
 
-                # The next step is to convert the remaining text into paragraphs.
-                paragraphs = functions.find_paragraphs(lines[preamble_length:],
-                                                      elements["extras"],
-                                                       extra_elements)
-                finished_lines.extend(paragraphs)
-                functions.write_new_file(finished_lines, filepath, dest_folder)
-                main_window["results"].update(
-                    value="Conversion complete.")
+                    # The next step is to convert the remaining text into paragraphs.
+                    paragraphs = functions.find_paragraphs(lines[preamble_length:],
+                                                           elements["extras"],
+                                                           extra_elements)
+                    finished_lines.extend(paragraphs)
+                    error_msg = functions.write_new_file(finished_lines, filepath, dest_folder)
+                    if error_msg:
+                        main_window["results"].update(value=error_msg)
+                    else:
+                        main_window["results"].update(
+                            value="Conversion complete.")
 
-            except ValueError:
-                main_window["results"].update(value="Preamble length must a number.")
+                except ValueError:
+                    main_window["results"].update(value="Preamble length must a number.")
 
         case sg.WIN_CLOSED:
             break
