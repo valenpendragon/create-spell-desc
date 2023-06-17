@@ -55,6 +55,23 @@ def load_elements(config=CONFIG) -> dict:
     return json.loads(content)
 
 
+def preamble_element_start(line: str,
+                           preamble_elements: list) -> bool:
+    """
+    This function checks to see if a line of text starts with a preamble
+    element, returning True if so, False if not.
+    :param line: str
+    :param preamble_elements: list of str
+    :return: bool
+    """
+    print(f"line: {line}")
+    for item in preamble_elements:
+        print(f"item: {item}")
+        if line.startswith(item):
+            return True
+    return False
+
+
 def convert_preamble(lines: list,
                      preamble_length: int,
                      preamble_elements: list) -> list:
@@ -72,22 +89,50 @@ def convert_preamble(lines: list,
     """
     converted_lines = []
     checked_lines = []
-    # First, we need to check for prematurely terminated preamble lines.
-    i = 0
-    # print(f"lines: {lines}")
-    while i < preamble_length:
-        if check_line_end(lines[i]):
-            try:
-                new_line = f"{lines[i]} {lines[i+1]}"
-                checked_lines.append(new_line)
-                i += 2
-            except IndexError:
-                new_line = f"{lines[i]}"
-                checked_lines.append(new_line)
-                break
-        else:
-            checked_lines.append(lines[i])
-            i += 1
+    # The first line is always the name of the spell or item.
+    checked_lines.append(lines[0].strip())
+    index = 1
+
+    # The second line is either the type of spell or the quality
+    # of the item. It should be italicized, but it can run more than
+    # one line. We cannot count on any of these lines having typical
+    # paragraph endings.
+    current_line = lines[index]
+    new_line = ""
+    while not preamble_element_start(current_line, preamble_elements):
+        new_line = f"{new_line}{current_line} "
+        print(f"new_line: {new_line}")
+        index += 1
+        current_line = lines[index]
+        print(f"current_line: {current_line}")
+    checked_lines.append(new_line.strip())
+
+    # Next, we need to find paragraphs. With spells and magic items,
+    # the preamble should have names at the start of every line. Any
+    # line that does not start with a preamble element should be part
+    # of the previous element.
+    print(f"lines: {lines}")
+
+    while index < preamble_length:
+        new_line = f"{current_line} "
+        index += 1
+        print(f"index: {index}. new_line: {new_line}")
+        try:
+            current_line = lines[index]
+            while not preamble_element_start(current_line, preamble_elements):
+                new_line = f"{new_line}{current_line} "
+                print(f"new_line: {new_line}")
+                index += 1
+                try:
+                    current_line = lines[index]
+                    print(f"current_line: {current_line}")
+                except IndexError:
+                    break
+        except IndexError:
+            checked_lines.append(new_line.strip())
+            print(f"checked_lines: {checked_lines}")
+            break
+        checked_lines.append(new_line.strip())
         print(f"checked_lines: {checked_lines}")
 
     for idx, line in enumerate(checked_lines):
@@ -98,26 +143,10 @@ def convert_preamble(lines: list,
             # Add italics to spell type and level (2nd line).
             converted_lines.append(italicize_line(checked_lines[1]))
         elif 1 < idx < preamble_length:
-            element_found = False
-            # print(f"idx: {idx}, preamble_length: {preamble_length}")
-            # print(f"element_found: {element_found}")
             for item in preamble_elements:
-                # The following fixes a bug in which one preamble item of
-                # length X matches the first X characters of another preamble
-                # item.
-                # print(f"item: {item}")
-                # print(f"len(checked_lines): {len(checked_lines)}")
-                # print(f"len(converted_lines): {len(converted_lines)}")
-                if len(checked_lines) > len(converted_lines):
-                    if checked_lines[idx].startswith(item):
-                        element_found = True
-                        new_item = f"__{item}__"
-                        converted_lines.append(
-                            checked_lines[idx].replace(item, new_item))
-                        print(f"element_found: {element_found}")
-                        print(f"new_item: {new_item}")
-            if not element_found:
-                converted_lines.append(checked_lines[idx])
+                if checked_lines[idx].startswith(item):
+                    converted_lines.append(checked_lines[idx].replace(item, f"__{item}__"))
+            print(f"checked line: {checked_lines[idx]}")
         print(f"checked_lines: {checked_lines}")
         print(f"converted_lines: {converted_lines}")
     return converted_lines
@@ -243,14 +272,14 @@ def identify_extras(line: str,
 
 def write_new_file(lines: list,
                    filepath,
-                   dest_folder) -> None:
+                   dest_folder):
     """
     This function writes a list of strings to disk, adding break lines for each
     string.
     :param lines: list of str
     :param filepath: str, filepath to original file
     :param dest_folder: str
-    :return:
+    :return: None or Error string
     """
     original_filename = Path(filepath).stem
     new_filename = f"__{original_filename}__.txt"
@@ -285,7 +314,7 @@ if __name__ == "__main__":
     lines = load_file("originals/Alter Self.txt")
     lines = [line.strip("\n") for line in lines]
     print(lines)
-    preamble = convert_preamble(lines, 8, elements["preamble"])
+    preamble = convert_preamble(lines[0:8], 8, elements["preamble"])
     print(preamble)
     paragraphs = find_paragraphs(lines[8:], extras, True)
     print(paragraphs)
