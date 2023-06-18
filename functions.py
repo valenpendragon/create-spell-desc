@@ -196,7 +196,7 @@ def find_paragraphs(remaining_txt: list,
         print(f"bullet: {bullet}")
         if has_extras and extra is not None:
             if current_paragraph != "":
-                paragraphs.append(current_paragraph)
+                paragraphs.append(current_paragraph.strip())
                 current_paragraph = ""
             current_paragraph = line.replace(extra, f"__{extra}__")
             if current_paragraph[-1] in ending_punctuation:
@@ -265,6 +265,7 @@ def identify_extras(line: str,
     :return: str or None
     """
     for extra in extras:
+        line = line.strip()
         if line.startswith(extra):
             return extra
     return None
