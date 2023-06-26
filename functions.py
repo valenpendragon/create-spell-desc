@@ -103,8 +103,11 @@ def convert_preamble(lines: list,
         new_line = f"{new_line}{current_line} "
         print(f"new_line: {new_line}")
         index += 1
-        current_line = lines[index]
-        print(f"current_line: {current_line}")
+        try:
+            current_line = lines[index]
+            print(f"current_line: {current_line}")
+        except IndexError:
+            break
     checked_lines.append(new_line.strip())
 
     # Next, we need to find paragraphs. With spells and magic items,
