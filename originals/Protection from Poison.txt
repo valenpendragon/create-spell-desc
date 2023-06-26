@@ -1,0 +1,15 @@
+Protection from Poison
+2nd-level (abjuration; divine, nature, negation,
+protection)
+Classes: Druid, herald
+Casting Time: 1 action
+Range: Touch
+Target: One creature
+Components: V, S
+Duration: 1 hour
+The target has advantage on saving throws against
+being poisoned and resistance to poison damage.
+Additionally, if the target is poisoned, you negate
+one poison affecting it. If more than one poison
+affects the target, you negate one poison you know
+is present (otherwise you negate one at random).

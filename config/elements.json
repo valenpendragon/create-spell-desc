@@ -24,9 +24,13 @@
     "Purification", "Rite of Passage", "Create Water", "Destroy Water"
   ],
   "emphasis": [
-    "advantage", "disadvantage"
+    "advantage", "disadvantage", "resistance", "blinded", "bloodied", "charmed",
+    "confused", "deafened", "doomed","encumbered", "frightened", "grappled",
+    "incapacitated", "invisible", "paralyzed","petrified", "poisoned", "prone",
+    "rattled", "restrained", "slowed", "stunned", "unconscious", "fatigue",
+    "strife"
   ],
   "strong emphasis": [
-    "action", "bonus action", "reaction"
+    "action", "bonus action", "reaction", "immunity", "resistance"
   ]
 }

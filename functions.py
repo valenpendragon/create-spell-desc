@@ -307,23 +307,55 @@ def check_for_bullet(s: str) -> bool:
     return s[0] == "•"
 
 
+def touch_up_paragraphs(paragraphs: list,
+                        emphasis: list,
+                        strong_emphsis: list) -> list:
+    """
+
+    :param paragraphs:
+    :param emphasis:
+    :param strong_emphsis:
+    :return:
+    """
+    pass
+
+
 if __name__ == "__main__":
-    print(load_file("originals/Alarm.txt"))
-    print(load_file("originals/test.csv"))
+    files = ["originals/Alter Self.txt",
+             "originals/test.csv",
+             "originals/Alarm.txt",
+             "originals/Detect Thoughts",
+             "originals/Protection from Poison.txt"]
+    # Standalone tests.
     print(convert_title("title"))
-    elements = load_elements()
-    preamble = elements["preamble"]
-    extras = elements["extras"]
-    print(elements)
-    lines = load_file("originals/Alter Self.txt")
-    lines = [line.strip("\n") for line in lines]
-    print(lines)
-    preamble = convert_preamble(lines[0:8], 8, elements["preamble"])
-    print(preamble)
-    paragraphs = find_paragraphs(lines[8:], extras, True)
-    print(paragraphs)
-    test_convert = preamble
-    test_convert.extend(paragraphs)
-    write_new_file(test_convert, "originals/Alter Self.txt", "output")
     print(f"Bullet test (should be False: {check_for_bullet('No bullet here.')}")
     print(f"Bullet test (should be true): {check_for_bullet('• a level of fatigue.')}")
+
+    # Configuration testing.
+    elements = load_elements()
+    preamble_items = elements["preamble"]
+    extras = elements["extras"]
+    emphasis_items = elements["emphasis"]
+    strong_emphasis_items = elements["strong emphasis"]
+    print(f"elements: {elements}")
+    print(f"preamble_items: {preamble_items}")
+    print(f"extras: {extras}")
+    print(f"emphasis_items: {emphasis_items}")
+    print(f"strong emphasis items: {strong_emphasis_items}")
+
+    # Conversion testing.
+    for file in files:
+        print(f"file: {file}")
+        lines = load_file(file)
+        lines = [line.strip("\n") for line in lines]
+        print(f"lines: {lines}")
+        preamble = convert_preamble(lines[0:8], 8, preamble_items)
+        print(f"preamble: {preamble}")
+        paragraphs = find_paragraphs(lines[8:], extras, True)
+        print(f"paragraphs: {paragraphs}")
+        touched_up = touch_up_paragraphs(paragraphs, emphasis_items,
+                                         strong_emphasis_items)
+        pritn(f"touched_up(paraqraphs): {touched_up}")
+        test_convert = preamble
+        test_convert.extend(touched_up)
+        write_new_file(test_convert, file, "output")
