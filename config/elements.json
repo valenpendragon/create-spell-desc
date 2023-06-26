@@ -22,5 +22,11 @@
     "Extradimensional Interference", "Tongues", "Energy Protection",
     "Energy Vulnerability", "Funeral", "Guide the Passing", "Offering",
     "Purification", "Rite of Passage", "Create Water", "Destroy Water"
+  ],
+  "emphasis": [
+    "advantage", "disadvantage"
+  ],
+  "strong emphasis": [
+    "action", "bonus action", "reaction"
   ]
 }
