@@ -309,27 +309,44 @@ def check_for_bullet(s: str) -> bool:
 
 def touch_up_paragraphs(paragraphs: list,
                         emphasis: list,
-                        strong_emphsis: list) -> list:
+                        strong_emphasis: list) -> list:
     """
-
-    :param paragraphs:
-    :param emphasis:
-    :param strong_emphsis:
-    :return:
+    This function takes a list of paragraphs from the spell description and
+    add emphasis to words or phrases matching items in emphasis list or strong
+    emphasis for the same in the strong_emphasis list. Then, it returns this
+    list when completed.
+    :param paragraphs: list of str
+    :param emphasis: list of str
+    :param strong_emphsis: list of str
+    :return: list of str
     """
-    pass
+    for idx, paragraph in enumerate(paragraphs):
+        print(f"idx: {idx}. paragraph; {paragraph}")
+        print("Emphasis checks.")
+        for item in emphasis:
+            print(f"item: {item}")
+            if item in paragraph:
+                paragraphs[idx] = paragraphs[idx].replace(item, f"_{item}_")
+                print(f"new paragraph: {paragraphs[idx]}")
+        print("Strong emphasis checks.")
+        for item in strong_emphasis:
+            print(f"item: {item}")
+            if item in paragraph:
+                paragraphs[idx] = paragraphs[idx].replace(item, f"__{item}__")
+                print(f"new paragraph: {paragraphs[idx]}")
+    return paragraphs
 
 
 if __name__ == "__main__":
     files = ["originals/Alter Self.txt",
-             "originals/test.csv",
              "originals/Alarm.txt",
-             "originals/Detect Thoughts",
+             "originals/Detect Thoughts.txt",
              "originals/Protection from Poison.txt"]
     # Standalone tests.
     print(convert_title("title"))
     print(f"Bullet test (should be False: {check_for_bullet('No bullet here.')}")
     print(f"Bullet test (should be true): {check_for_bullet('• a level of fatigue.')}")
+    print(load_file("originals/test.csv"))
 
     # Configuration testing.
     elements = load_elements()

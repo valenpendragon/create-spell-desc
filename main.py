@@ -105,7 +105,10 @@ while True:
                     paragraphs = functions.find_paragraphs(lines[preamble_length:],
                                                            elements["extras"],
                                                            extra_elements)
-                    finished_lines.extend(paragraphs)
+                    touched_up = functions.touch_up_paragraphs(
+                        paragraphs, elements["emphasis"],
+                        elements["strong emphasis"])
+                    finished_lines.extend(touched_up)
                     error_msg = functions.write_new_file(finished_lines, filepath, dest_folder)
                     if error_msg:
                         main_window["results"].update(value=error_msg)
