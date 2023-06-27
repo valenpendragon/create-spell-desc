@@ -355,7 +355,7 @@ if __name__ == "__main__":
         print(f"paragraphs: {paragraphs}")
         touched_up = touch_up_paragraphs(paragraphs, emphasis_items,
                                          strong_emphasis_items)
-        pritn(f"touched_up(paraqraphs): {touched_up}")
+        print(f"touched_up: {touched_up}")
         test_convert = preamble
         test_convert.extend(touched_up)
         write_new_file(test_convert, file, "output")
