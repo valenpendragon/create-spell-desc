@@ -31,6 +31,7 @@ def convert_title(title: str) -> str:
     :param title: str
     :return: str
     """
+    title = title.lower().title()
     return f"__{title}__"
 
 
@@ -267,8 +268,11 @@ def identify_extras(line: str,
     :param extras: list of str
     :return: str or None
     """
+    print(f"line: {line}")
     for extra in extras:
         line = line.strip()
+        print(f"line: {line}")
+        print(f"extra: {extra}")
         if line.startswith(extra):
             return extra
     return None
@@ -326,14 +330,26 @@ def touch_up_paragraphs(paragraphs: list,
         for item in emphasis:
             print(f"item: {item}")
             if item in paragraph:
-                paragraphs[idx] = paragraphs[idx].replace(item, f"_{item}_")
-                print(f"new paragraph: {paragraphs[idx]}")
+                # Due to a bug in the way a more naive algorithm performed this
+                # operation, I need to make sure that the item has a space before
+                # it before changing it.
+                if f" {item}" in paragraph:
+                    paragraphs[idx] = paragraphs[idx].replace(item, f"_{item}_")
+                    print(f"new paragraph: {paragraphs[idx]}")
+                else:
+                    continue
         print("Strong emphasis checks.")
         for item in strong_emphasis:
             print(f"item: {item}")
             if item in paragraph:
-                paragraphs[idx] = paragraphs[idx].replace(item, f"__{item}__")
-                print(f"new paragraph: {paragraphs[idx]}")
+                # Due to a bug in the way a more naive algorithm performed this
+                # operation, I need to make sure that the item has a space before
+                # it before changing it.
+                if f" {item}" in paragraph:
+                    paragraphs[idx] = paragraphs[idx].replace(item, f"__{item}__")
+                    print(f"new paragraph: {paragraphs[idx]}")
+                else:
+                    continue
     return paragraphs
 
 

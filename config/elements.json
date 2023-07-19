@@ -21,14 +21,16 @@
     "Daylight", "Energy Projection", "Everlasting Rest", "Fear", "Silence",
     "Extradimensional Interference", "Tongues", "Energy Protection",
     "Energy Vulnerability", "Funeral", "Guide the Passing", "Offering",
-    "Purification", "Rite of Passage", "Create Water", "Destroy Water"
+    "Purification", "Rite of Passage", "Create Water", "Destroy Water",
+    "Bear's Endurance", "Bull's Strength", "Cat's Grace", "Eagle's Splendor",
+    "Fox's Cunning", "Owl's Wisdom", "At Higher Levels"
   ],
   "emphasis": [
-    "advantage", "disadvantage", "blinded", "bloodied", "charmed",
+    "disadvantage", "advantage", "blinded", "bloodied", "charmed",
     "confused", "deafened", "doomed","encumbered", "frightened", "grappled",
     "incapacitated", "invisible", "paralyzed","petrified", "poisoned", "prone",
     "rattled", "restrained", "slowed", "stunned", "unconscious", "fatigue",
-    "strife"
+    "strife", "darkvision"
   ],
   "strong emphasis": [
     "action", "bonus action", "reaction", "immunity", "resistance"
