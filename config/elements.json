@@ -24,7 +24,7 @@
     "Purification", "Rite of Passage", "Create Water", "Destroy Water",
     "Bear's Endurance", "Bull's Strength", "Cat's Grace", "Eagle's Splendor",
     "Fox's Cunning", "Owl's Wisdom", "At Higher Levels", "False Aura",
-    "Masking Effect"
+    "Masking Effect", "Sentience"
   ],
   "emphasis": [
     "disadvantage", "advantage", "blinded", "bloodied", "charmed",
@@ -32,7 +32,7 @@
     "incapacitated", "invisible", "paralyzed","petrified", "poisoned", "prone",
     "rattled", "restrained", "slowed", "stunned", "unconscious", "fatigue",
     "strife", "darkvision", "difficult terrain", "piercing", "slashing",
-    "bludgeoning", "force"
+    "bludgeoning", "force", "psychic"
   ],
   "strong emphasis": [
     "action", "bonus action", "reaction", "immunity", "resistance"
