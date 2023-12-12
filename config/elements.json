@@ -32,7 +32,7 @@
     "incapacitated", "invisible", "paralyzed","petrified", "poisoned", "prone",
     "rattled", "restrained", "slowed", "stunned", "unconscious", "fatigue",
     "strife", "darkvision", "difficult terrain", "piercing", "slashing",
-    "bludgeoning", "force", "psychic", "necrotic"
+    "bludgeoning", "force", "psychic", "necrotic", "possessed", "radiant"
   ],
   "strong emphasis": [
     "action", "bonus action", "reaction", "immunity", "resistance"
